@@ -6,6 +6,8 @@ tmp
 .history
 dist
 .idea
+.ensime_cache
+.sass-cache
 *.iml
 /out
 .idea_modules
