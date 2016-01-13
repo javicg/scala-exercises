@@ -14,8 +14,19 @@ class ApplicationSpec extends Specification {
 
   "Application" should {
 
+    "send 200 on a bad request due to non existing library" in new WithApplication {
+      var request = route(FakeRequest(GET, "/library")).get
+      status(request) must equalTo(BAD_REQUEST)
+    }
+
+    "send 200 on a bad request due to non existing section" in new WithApplication {
+      var request = route(FakeRequest(GET, "/library/section")).get
+      status(request) must equalTo(BAD_REQUEST)
+    }
+
     "send 404 on a bad request" in new WithApplication {
-      route(FakeRequest(GET, "/boum")) must beSome.which(status(_) == NOT_FOUND)
+      var request = route(FakeRequest(GET, "/library/section/extraSegment")).get
+      status(request) must equalTo(NOT_FOUND)
     }
 
     "render the index page" in new WithApplication {
