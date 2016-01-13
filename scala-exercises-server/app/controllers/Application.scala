@@ -38,7 +38,7 @@ object Application extends Controller {
   def library(libraryName: String) = Action.async { implicit request ⇒
     ExercisesService.libraries.find(_.name == libraryName) match {
       case Some(library) ⇒ Future(Redirect(s"$libraryName/${library.sectionNames.head}"))
-      case _             ⇒ Future(Ok("Library not found"))
+      case _             ⇒ Future(BadRequest("Library not found"))
     }
   }
 
@@ -50,7 +50,7 @@ object Application extends Controller {
     (library, section) match {
       case (Some(l), Some(s)) ⇒ Future(Ok(views.html.templates.library.index(l, s)))
       case (Some(l), None)    ⇒ Future(Redirect(l.sectionNames.head))
-      case _                  ⇒ Future(Ok("Section not found"))
+      case _                  ⇒ Future(BadRequest("Section not found"))
     }
   }
 
